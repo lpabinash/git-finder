@@ -1,33 +1,16 @@
-import React, { Component } from 'react';
-import Username from './Username'
+import React from 'react';
+import Username from './Username';
+import Spinner from './Spinner'
 
-export class User extends Component {
-    state={
-        user:[{
-            login: "pjhyett",
-            id: 3,
-            avatar_url: "https://avatars0.githubusercontent.com/u/3?v=4",
-            html_url: "https://github.com/pjhyett",
-          },
-          {
-            login: "wycats",
-            id: 4,
-            avatar_url: "https://avatars0.githubusercontent.com/u/4?v=4",
-            html_url: "https://github.com/wycats",
-           
-          },
-          {
-            login: "ezmobius",
-            id: 5,
-            avatar_url: "https://avatars0.githubusercontent.com/u/5?v=4",
-            html_url: "https://github.com/ezmobius",
-            
-          }]
-    }
-    render() {
+const User = ({users,loading}) => {
+
+    if(loading){
+        return <Spinner/>
+        
+    }else{
         return (
             <div style={userStyle}>
-                {this.state.user.map(user => ( <Username key={user.id} user={user}/>
+                {users.map(user => ( <Username key={user.id} user={user}/>
                 ))}
             </div>
         )

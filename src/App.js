@@ -4,27 +4,32 @@ import './App.css';
 import Navbar from './navbar';
 import axios from 'axios';
 // import Username from './Username';
-import User from './user'
+import User from './user';
+import Search from './Search'
 
 class App extends React.Component {
   state={
     users:[],
     loading:false
   }
-  async componentDidMount(){
+
+  searchUsers= async(text)=>{
     this.setState({loading:true});
-    const resp= await axios.get('https://api.github.com/users');
-    this.setState({users:resp.data, loading:false})
-    console.log(this.state.users);
+    const resp= await axios.get(`https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GIT_CLIENT_ID}&client_secret=${process.env.REACT_APP_GIT_CLIENT_SECRET}`);
+    this.setState({users:resp.data.items, loading:false})
+    console.log(resp.data);
   }
+
 
   render(){
     return (
       <div className="App">
        <Navbar title='Git Finder' icon='fab fa-github' />
+       
        {/* <Username/> */}
        <div className='container'>
-       <User/>
+       <Search searchUsers={this.searchUsers} />
+       <User loading={this.state.loading} users={this.state.users} />
        </div>
       </div>
     );
